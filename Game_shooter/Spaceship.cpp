@@ -1,4 +1,5 @@
 #include "Spaceship.h"
+#include "World.h"
 
 Textures::ID ToTextureID(Spaceship::Type type) 
 {
@@ -11,7 +12,7 @@ Textures::ID ToTextureID(Spaceship::Type type)
     }
 }
 
-Spaceship::Spaceship(Type type, const TexturesHolder & textures) : mSpeedLimits()
+Spaceship::Spaceship(Type type, World& world, const TexturesHolder & textures) : mSpeedLimits(), mWorld(world)
 {
     mType = type;
     mSprite.setTexture(textures.Get(ToTextureID(type)));

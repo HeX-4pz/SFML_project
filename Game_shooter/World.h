@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "Spaceship.h"
+#include "PlayerSpaceship.h"
 
 class World : private sf::NonCopyable
 {
@@ -12,7 +12,8 @@ public:
     void Update(sf::Time dTime);
     void Draw();
 
-    void HadlePlayerInput(sf::Keyboard::Key key, bool pressed);
+    sf::FloatRect GetCurrentBouds();
+    float GetScrollSpeed();
 
 private:
     void LoadResources();
@@ -34,7 +35,7 @@ private:
     SceneNode mSceneGraph;
     std::array<SceneNode*, Layer::LayerCount> mSceneLayers;
 
-    Spaceship* mPlayerSpaceship;
+    PlayerSpaceship* mPlayerSpaceship;
 
     sf::FloatRect mWorldBounds;
     sf::Vector2f mSpawnPosition;

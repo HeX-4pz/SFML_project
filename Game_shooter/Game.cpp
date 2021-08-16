@@ -47,12 +47,6 @@ void Game::ProcessEvents()
     {
         switch (event.type)
         {
-        case sf::Event::KeyPressed:
-            HadlePlayerInput(event.key.code, true);
-            break;
-        case sf::Event::KeyReleased:
-            HadlePlayerInput(event.key.code, false);
-            break;
         case sf::Event::Closed:
             mWindow.close();
             break;
@@ -74,11 +68,6 @@ void Game::Render()
     mWindow.setView(mWindow.getDefaultView());
     mWindow.draw(mStatisticText);
     mWindow.display();
-}
-
-void Game::HadlePlayerInput(sf::Keyboard::Key key, bool pressed)
-{
-    mWorld.HadlePlayerInput(key, pressed);
 }
 
 void Game::UpdateStatistic(sf::Time dTime)

@@ -12,7 +12,6 @@ private:
     void ProcessEvents();
     void Update(sf::Time dTime);
     void Render();
-    void HadlePlayerInput(sf::Keyboard::Key key, bool pressed);
     void UpdateStatistic(sf::Time dTime);
 
 private:

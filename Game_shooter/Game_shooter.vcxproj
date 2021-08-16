@@ -132,8 +132,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="InputController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pawn.cpp" />
+    <ClCompile Include="PlayerSpaceship.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Spaceship.cpp" />
     <ClCompile Include="SpriteNode.cpp" />
@@ -141,7 +143,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="InputController.h" />
     <ClInclude Include="Pawn.h" />
+    <ClInclude Include="PlayerSpaceship.h" />
     <ClInclude Include="ResourceHolder.hpp" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="Spaceship.h" />

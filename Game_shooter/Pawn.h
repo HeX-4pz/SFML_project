@@ -15,7 +15,7 @@ public:
 private:
     virtual void UpdateCurent(sf::Time dTime);
 
-private:
+protected:
     sf::Vector2f mVelocity;
 };
 

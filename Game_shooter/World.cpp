@@ -18,33 +18,7 @@ World::World(sf::RenderWindow& window)
 
 void World::Update(sf::Time dTime)
 {
-
     mView.move(0.f, mScrolSpeed * dTime.asSeconds());
-
-    float leftLimit = mView.getCenter().x - mView.getSize().x / 2.f + 32.f;
-    float topLimit = mView.getCenter().y - mView.getSize().y / 2.f + 32.f;
-    float rightLimit = mView.getCenter().x + mView.getSize().x / 2.f - 32.f;
-    float downLimit = mView.getCenter().y + mView.getSize().y / 2.f - 32.f;
-
-    sf::Vector2f positionPlayer = mPlayerSpaceship->getPosition();
-
-    if (positionPlayer.x < leftLimit)
-        positionPlayer.x = leftLimit;
-
-    if (positionPlayer.x > rightLimit)
-        positionPlayer.x = rightLimit;
-
-    if (positionPlayer.y < topLimit)
-        positionPlayer.y = topLimit;
-
-    if (positionPlayer.y > downLimit)
-        positionPlayer.y = downLimit;
-
-    if (mPlayerSpaceship->getPosition() != positionPlayer)
-    {
-        mPlayerSpaceship->setPosition(positionPlayer);
-    }
-
     mSceneGraph.Update(dTime);
 }
 
@@ -54,36 +28,18 @@ void World::Draw()
     mRender.draw(mSceneGraph);
 }
 
-void World::HadlePlayerInput(sf::Keyboard::Key key, bool pressed)
+sf::FloatRect World::GetCurrentBouds()
 {
-    sf::Vector2f speed;
-    if (!pressed)
-    {
-        speed.x = 0;
-        speed.y = mScrolSpeed;
-    }
-    else if (key == sf::Keyboard::W)
-    {
-        speed.x = 0;
-        speed.y = mScrolSpeed - mPlayerSpaceship->GetSpeedLimits().y;
-    }
-    else if (key == sf::Keyboard::S)
-    {
-        speed.x = 0;
-        speed.y = mScrolSpeed + mPlayerSpaceship->GetSpeedLimits().y;
-    }
-    else if (key == sf::Keyboard::A)
-    {
-        speed.x = -mPlayerSpaceship->GetSpeedLimits().x;
-        speed.y = mScrolSpeed;
-    }
-    else if (key == sf::Keyboard::D)
-    {
-        speed.x = mPlayerSpaceship->GetSpeedLimits().x;
-        speed.y = mScrolSpeed;
-    }
+    return sf::FloatRect(
+        mView.getCenter().x - mView.getSize().x / 2.f,
+        mView.getCenter().y - mView.getSize().y / 2.f,
+        mView.getSize().x,
+        mView.getSize().y);
+}
 
-    mPlayerSpaceship->SetVelocity(speed);
+float World::GetScrollSpeed()
+{
+    return mScrolSpeed;
 }
 
 void World::LoadResources()
@@ -111,18 +67,18 @@ void World::Initiate()
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
     mSceneLayers[Background]->AttachChild(std::move(backgroundSprite));
 
-    std::unique_ptr<Spaceship> player(new Spaceship(Spaceship::Eagle, mTextureHolder));
+    std::unique_ptr<PlayerSpaceship> player(new PlayerSpaceship(PlayerSpaceship::Eagle, *this, mTextureHolder));
     mPlayerSpaceship = player.get();
     mPlayerSpaceship->setPosition(mSpawnPosition);
     mPlayerSpaceship->SetVelocity(0, mScrolSpeed);
     mPlayerSpaceship->SetSpeedLimits(sf::Vector2f(500.f, 500.f));
     mSceneLayers[Front]->AttachChild(std::move(player));
 
-    std::unique_ptr<Spaceship> leftEscort(new Spaceship(Spaceship::Raptor, mTextureHolder));
+    std::unique_ptr<Spaceship> leftEscort(new Spaceship(Spaceship::Raptor, *this, mTextureHolder));
     leftEscort->setPosition(-80.f, 50.f);
     mPlayerSpaceship->AttachChild(std::move(leftEscort));
 
-    std::unique_ptr<Spaceship> rightEscort(new Spaceship(Spaceship::Raptor, mTextureHolder));
+    std::unique_ptr<Spaceship> rightEscort(new Spaceship(Spaceship::Raptor, *this, mTextureHolder));
     rightEscort->setPosition(80.f, 50.f);
     mPlayerSpaceship->AttachChild(std::move(rightEscort));
 
