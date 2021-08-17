@@ -16,14 +16,7 @@ World::World(sf::RenderWindow& window)
     LoadResources();
     Initiate();
     mView.setCenter(mSpawnPosition);
-}
-
-World::~World()
-{
-    if (mCommandsQueue)
-        delete mCommandsQueue;
-
-    mCommandsQueue = nullptr;
+    mCommandsQueue = std::make_unique<QueueInputCommands>();
 }
 
 void World::Update(sf::Time dTime)
@@ -36,13 +29,10 @@ void World::Update(sf::Time dTime)
         mSceneGraph.OnCommand(mCommandsQueue->pop(), dTime);
     }
 
-    sf::Vector2f velocity = mPlayerSpaceship->GetVelocity();
-
-    if (velocity.x != 0.f && velocity.y != 0.f)
-        mPlayerSpaceship->SetVelocity(velocity / std::sqrt(2.f));
-
-    mPlayerSpaceship->Accelerate(0.f, mScrolSpeed);
+    AdaptPlayerVelocity();
     mSceneGraph.Update(dTime);
+    
+    AdaptPlayerPosition();
 }
 
 void World::Draw()
@@ -95,14 +85,29 @@ void World::Initiate()
     mPlayerSpaceship->setPosition(mSpawnPosition);
     mPlayerSpaceship->SetVelocity(0, mScrolSpeed);
     mSceneLayers[Front]->AttachChild(std::move(player));
+}
 
-    std::unique_ptr<Spaceship> leftEscort(new Spaceship(Spaceship::Raptor, *this, mTextureHolder));
-    leftEscort->setPosition(-80.f, 50.f);
-    mPlayerSpaceship->AttachChild(std::move(leftEscort));
+void World::AdaptPlayerPosition()
+{
+    sf::FloatRect viewBouds(mView.getCenter() - mView.getSize() / 2.f, mView.getSize());
+    float borderDistance = 32;
 
-    std::unique_ptr<Spaceship> rightEscort(new Spaceship(Spaceship::Raptor, *this, mTextureHolder));
-    rightEscort->setPosition(80.f, 50.f);
-    mPlayerSpaceship->AttachChild(std::move(rightEscort));
+    sf::Vector2f position = mPlayerSpaceship->getPosition();
 
-    mCommandsQueue = new QueueInputCommands;
+    position.x = std::max(position.x, viewBouds.left + borderDistance);
+    position.x = std::min(position.x, viewBouds.left + viewBouds.width - borderDistance);
+    position.y = std::max(position.y, viewBouds.top + borderDistance);
+    position.y = std::min(position.y, viewBouds.top + viewBouds.height - borderDistance);
+
+    mPlayerSpaceship->setPosition(position);
+}
+
+void World::AdaptPlayerVelocity()
+{
+    sf::Vector2f velocity = mPlayerSpaceship->GetVelocity();
+
+    if (velocity.x != 0.f && velocity.y != 0.f)
+        mPlayerSpaceship->SetVelocity(velocity / std::sqrt(2.f));
+
+    mPlayerSpaceship->Accelerate(0.f, mScrolSpeed);
 }

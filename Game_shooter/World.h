@@ -13,7 +13,6 @@ class World : private sf::NonCopyable
 {
 public:
     World(sf::RenderWindow& window);
-    ~World();
 
     void Update(sf::Time dTime);
     void Draw();
@@ -25,6 +24,9 @@ private:
     void LoadResources();
     void Initiate();
 
+    void AdaptPlayerPosition();
+    void AdaptPlayerVelocity();
+
 private:
     enum Layer
     {
@@ -34,7 +36,7 @@ private:
     };
 
 public:
-    QueueInputCommands* mCommandsQueue;
+    std::unique_ptr<QueueInputCommands> mCommandsQueue;
 
 private:
     sf::RenderWindow& mRender;
