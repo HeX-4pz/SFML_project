@@ -5,56 +5,103 @@
 #include "Command.h"
 
 
+struct PlayerMover
+{
+    PlayerMover(float vx, float vy) : mVelocity(vx, vy) {}
+
+    void operator ()(SceneNode& node, sf::Time dTime);
+
+    sf::Vector2f mVelocity;
+};
+
+Command playerAction(PlayerMover mover)
+{
+    Command command;
+    command.mCommandType = CommandType::CommandType_PlayerSpaceship;
+    command.mAction = mover;
+
+    return command;
+}
+
+Command playerAction(std::function<void(SceneNode&, sf::Time)> action)
+{
+    Command command;
+    command.mCommandType = CommandType::CommandType_PlayerSpaceship;
+    command.mAction = action;
+
+    return command;
+}
+
+PlayerController::PlayerController()
+{
+    float speed = 300;
+
+    mCommandConnection[Action::moveUp] = playerAction(PlayerMover(0.f, -speed));
+    mCommandConnection[Action::moveDown] = playerAction(PlayerMover(0.f, speed));
+    mCommandConnection[Action::moveLeft] = playerAction(PlayerMover(-speed, 0.f));
+    mCommandConnection[Action::moveRight] = playerAction(PlayerMover(speed, 0.f));
+
+    mCommandConnection[Action::writePos] = playerAction([](SceneNode& node, sf::Time dTime) {
+        sf::Vector2f position = node.getPosition();
+        std::cout << "Position [" << position.x << ", " << position.y << "]" << std::endl;
+    });
+
+    // key assign
+    AssignKey(sf::Keyboard::W, Action::moveUp);
+    AssignKey(sf::Keyboard::S, Action::moveDown);
+    AssignKey(sf::Keyboard::A, Action::moveLeft);
+    AssignKey(sf::Keyboard::D, Action::moveRight);
+    AssignKey(sf::Keyboard::I, Action::writePos);
+}
+
 void PlayerController::HandleInputEvent(sf::Event event, QueueInputCommands & events)
 {
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::I)
+    if (event.type == sf::Event::KeyPressed)
     {
-        Command logPosition;
-        logPosition.mCommandType = CommandType::CommandType_PlayerSpaceship;
-        logPosition.mAction = [](SceneNode& node, sf::Time dTime) {
-            sf::Vector2f position = node.getPosition();
-            std::cout << "Position [" << position.x << ", " << position.y << "]" << std::endl;
-        };
-
-        events.push(logPosition);
+        auto found = mKeyboardConnection.find(event.key.code);
+        if (found != mKeyboardConnection.end() && !IsRealtimeAction(found->second))
+        {
+            events.push(mCommandConnection[found->second]);
+        }
     }
 }
 
 void PlayerController::HandleRealtimeInput(QueueInputCommands& events)
 {
-    float speed = 500;
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    for (auto keyCouple : mKeyboardConnection)
     {
-        Command moveUp;
-        moveUp.mCommandType = CommandType::CommandType_PlayerSpaceship;
-        moveUp.mAction = PlayerMover(0, -speed);
-        events.push(moveUp);
+        if (IsRealtimeAction(keyCouple.second) && sf::Keyboard::isKeyPressed(keyCouple.first))
+        {
+            events.push(mCommandConnection[keyCouple.second]);
+        }
+    }
+}
+
+void PlayerController::AssignKey(sf::Keyboard::Key key, Action action)
+{
+    for (auto itr = mKeyboardConnection.begin(); itr != mKeyboardConnection.end();)
+    {
+        if (itr->second == action)
+            mKeyboardConnection.erase(itr++);
+        else
+            ++itr;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    mKeyboardConnection[key] = action;
+}
+
+bool PlayerController::IsRealtimeAction(Action action)
+{
+    switch (action)
     {
-        Command moveDown;
-        moveDown.mCommandType = CommandType::CommandType_PlayerSpaceship;
-        moveDown.mAction = PlayerMover(0, speed);
-        events.push(moveDown);
+    case PlayerController::moveUp:
+    case PlayerController::moveDown:
+    case PlayerController::moveLeft:
+    case PlayerController::moveRight:
+        return true;
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-    {
-        Command moveLeft;
-        moveLeft.mCommandType = CommandType::CommandType_PlayerSpaceship;
-        moveLeft.mAction = PlayerMover(-speed, 0);
-        events.push(moveLeft);
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-    {
-        Command moveRight;
-        moveRight.mCommandType = CommandType::CommandType_PlayerSpaceship;
-        moveRight.mAction = PlayerMover(speed, 0);
-        events.push(moveRight);
-    }
+    return false;
 }
 
 void PlayerMover::operator()(SceneNode& node, sf::Time dTime)
