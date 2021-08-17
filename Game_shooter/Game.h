@@ -1,11 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "World.h"
+
+class World;
+class PlayerController;
 
 class Game
 {
 public:
     Game();
+    ~Game();
     void Run();
 
 private:
@@ -19,7 +22,8 @@ private:
     sf::Text mStatisticText;
     sf::Font mFont;
 
-    World mWorld;
+    World * mWorld;
+    PlayerController * mPlayerController;
 
     float mStatisticUpdateTime;
     int mStatisticFPS = 0;

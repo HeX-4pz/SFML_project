@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 #include <SFML/Graphics.hpp>
-
+#include "Command.h"
 
 class SceneNode: public sf::Transformable, public sf::Drawable, public sf::NonCopyable
 {
@@ -14,6 +14,7 @@ public:
     uPtr DetachChild(const SceneNode& node);
     
     void Update(sf::Time dTime);
+    void OnCommand(const Command& command, sf::Time dTime);
 
     sf::Transform GetWorldTransform() const;
     sf::Vector2f GetWorldPosition() const;
@@ -26,6 +27,8 @@ private:
 
     virtual void UpdateCurent(sf::Time dTime);
     void UpdateChildren(sf::Time dTime);
+
+    virtual CommandType GetCommandType();
 
 
 private:

@@ -34,6 +34,19 @@ void SceneNode::Update(sf::Time dTime)
     UpdateChildren(dTime);
 }
 
+void SceneNode::OnCommand(const Command & command, sf::Time dTime)
+{
+    if (GetCommandType() == command.mCommandType)
+    {
+        command.mAction(*this, dTime);
+    }
+
+    for (auto& child : mChildren)
+    {
+        child->OnCommand(command, dTime);
+    }
+}
+
 sf::Transform SceneNode::GetWorldTransform() const
 {
     sf::Transform transform = sf::Transform::Identity;
@@ -68,6 +81,11 @@ void SceneNode::UpdateChildren(sf::Time dTime)
     {
         child->Update(dTime);
     }
+}
+
+CommandType SceneNode::GetCommandType()
+{
+    return CommandType_Scene;
 }
 
 void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const

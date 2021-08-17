@@ -1,5 +1,7 @@
 #include "World.h"
 #include "SpriteNode.h"
+#include "Spaceship.h"
+#include "Command.h"
 
 World::World(sf::RenderWindow& window)
     : mRender(window)
@@ -16,9 +18,30 @@ World::World(sf::RenderWindow& window)
     mView.setCenter(mSpawnPosition);
 }
 
+World::~World()
+{
+    if (mCommandsQueue)
+        delete mCommandsQueue;
+
+    mCommandsQueue = nullptr;
+}
+
 void World::Update(sf::Time dTime)
 {
     mView.move(0.f, mScrolSpeed * dTime.asSeconds());
+    mPlayerSpaceship->SetVelocity(0.f, 0.f);
+
+    while (!mCommandsQueue->empty())
+    {
+        mSceneGraph.OnCommand(mCommandsQueue->pop(), dTime);
+    }
+
+    sf::Vector2f velocity = mPlayerSpaceship->GetVelocity();
+
+    if (velocity.x != 0.f && velocity.y != 0.f)
+        mPlayerSpaceship->SetVelocity(velocity / std::sqrt(2.f));
+
+    mPlayerSpaceship->Accelerate(0.f, mScrolSpeed);
     mSceneGraph.Update(dTime);
 }
 
@@ -67,11 +90,10 @@ void World::Initiate()
     backgroundSprite->setPosition(mWorldBounds.left, mWorldBounds.top);
     mSceneLayers[Background]->AttachChild(std::move(backgroundSprite));
 
-    std::unique_ptr<PlayerSpaceship> player(new PlayerSpaceship(PlayerSpaceship::Eagle, *this, mTextureHolder));
+    std::unique_ptr<Spaceship> player(new Spaceship(Spaceship::Eagle, *this, mTextureHolder));
     mPlayerSpaceship = player.get();
     mPlayerSpaceship->setPosition(mSpawnPosition);
     mPlayerSpaceship->SetVelocity(0, mScrolSpeed);
-    mPlayerSpaceship->SetSpeedLimits(sf::Vector2f(500.f, 500.f));
     mSceneLayers[Front]->AttachChild(std::move(player));
 
     std::unique_ptr<Spaceship> leftEscort(new Spaceship(Spaceship::Raptor, *this, mTextureHolder));
@@ -82,4 +104,5 @@ void World::Initiate()
     rightEscort->setPosition(80.f, 50.f);
     mPlayerSpaceship->AttachChild(std::move(rightEscort));
 
+    mCommandsQueue = new QueueInputCommands;
 }

@@ -16,6 +16,16 @@ void Pawn::SetVelocity(float x, float y)
     mVelocity.y = y;
 }
 
+void Pawn::Accelerate(sf::Vector2f dVelocity)
+{
+    SetVelocity(GetVelocity() + dVelocity);
+}
+
+void Pawn::Accelerate(float dx, float dy)
+{
+    Accelerate(sf::Vector2f(dx, dy));
+}
+
 sf::Vector2f Pawn::GetVelocity()
 {
     return mVelocity;

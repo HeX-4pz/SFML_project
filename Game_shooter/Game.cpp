@@ -1,18 +1,29 @@
 #include <iostream>
 #include <string>
+
 #include "Game.h"
 #include "ResourceHolder.hpp"
+#include "World.h"
+#include "PlayerController.h"
 
 sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game() 
     : mWindow(sf::VideoMode(640, 480), "My game")
-    , mWorld(mWindow)
 {
+    mWorld = new World(mWindow);
+    mPlayerController = new PlayerController;
+
     mFont.loadFromFile("resources/fonts/Sansation.ttf");
     mStatisticText.setFont(mFont);
     mStatisticText.setPosition(5.f, 5.f);
     mStatisticText.setCharacterSize(10);
+}
+
+Game::~Game()
+{
+    if (mWorld) delete mWorld;
+    if (mPlayerController) delete mPlayerController;
 }
 
 void Game::Run()
@@ -45,25 +56,25 @@ void Game::ProcessEvents()
     sf::Event event;
     while (mWindow.pollEvent(event))
     {
-        switch (event.type)
+        mPlayerController->HandleInputEvent(event, *mWorld->mCommandsQueue);
+
+        if (event.type == sf::Event::Closed)
         {
-        case sf::Event::Closed:
             mWindow.close();
-            break;
         }
-            
     }
+    mPlayerController->HandleRealtimeInput(*mWorld->mCommandsQueue);
 }
 
 void Game::Update(sf::Time dTime)
 {
-    mWorld.Update(dTime);
+    mWorld->Update(dTime);
 }
 
 void Game::Render()
 {
     mWindow.clear();
-    mWorld.Draw();
+    mWorld->Draw();
 
     mWindow.setView(mWindow.getDefaultView());
     mWindow.draw(mStatisticText);
