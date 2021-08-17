@@ -3,12 +3,17 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "PlayerSpaceship.h"
+#include "SceneNode.h"
+#include "ResourceHolder.hpp"
+
+class Spaceship;
+class QueueInputCommands;
 
 class World : private sf::NonCopyable
 {
 public:
     World(sf::RenderWindow& window);
+
     void Update(sf::Time dTime);
     void Draw();
 
@@ -19,6 +24,9 @@ private:
     void LoadResources();
     void Initiate();
 
+    void AdaptPlayerPosition();
+    void AdaptPlayerVelocity();
+
 private:
     enum Layer
     {
@@ -26,6 +34,9 @@ private:
         Front,
         LayerCount
     };
+
+public:
+    std::unique_ptr<QueueInputCommands> mCommandsQueue;
 
 private:
     sf::RenderWindow& mRender;
@@ -35,7 +46,7 @@ private:
     SceneNode mSceneGraph;
     std::array<SceneNode*, Layer::LayerCount> mSceneLayers;
 
-    PlayerSpaceship* mPlayerSpaceship;
+    Spaceship* mPlayerSpaceship;
 
     sf::FloatRect mWorldBounds;
     sf::Vector2f mSpawnPosition;

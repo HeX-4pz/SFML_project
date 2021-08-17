@@ -12,7 +12,17 @@ Textures::ID ToTextureID(Spaceship::Type type)
     }
 }
 
-Spaceship::Spaceship(Type type, World& world, const TexturesHolder & textures) : mSpeedLimits(), mWorld(world)
+CommandType Spaceship::GetCommandType()
+{
+    if (mType == Eagle)
+        return CommandType_PlayerSpaceship;
+    else if (mType == Raptor)
+        return CommandType_FrendlySpaceship;
+
+    return CommandType_EnemySpaceship;
+}
+
+Spaceship::Spaceship(Type type, World& world, const TexturesHolder & textures) : mWorld(world)
 {
     mType = type;
     mSprite.setTexture(textures.Get(ToTextureID(type)));
@@ -26,13 +36,4 @@ void Spaceship::DrawCurrent(sf::RenderTarget& target, sf::RenderStates states) c
     target.draw(mSprite, states);
 }
 
-void Spaceship::SetSpeedLimits(sf::Vector2f limit)
-{
-    mSpeedLimits = limit;
-}
-
-const sf::Vector2f Spaceship::GetSpeedLimits() const
-{
-    return mSpeedLimits;
-}
 
