@@ -10,13 +10,14 @@ namespace Textures
     {
         Spaceship_Eagle,
         Spaceship_Raptor,
-        Desert
+        Desert,
+        Title,
     };
 }
 
 enum Fonts
 {
-    Sansation,
+    Main,
 };
 
 template<typename Resource, typename Identifier>

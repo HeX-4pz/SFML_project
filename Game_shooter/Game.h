@@ -15,6 +15,7 @@ private:
     void ProcessEvents();
     void Update(sf::Time dTime);
     void Render();
+
     void UpdateStatistic(sf::Time dTime);
 
 private:

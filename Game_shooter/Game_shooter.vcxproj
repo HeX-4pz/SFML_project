@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Pawn.cpp" />
@@ -151,6 +152,7 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="PlayerController.h" />
@@ -167,6 +169,7 @@
     <Image Include="resources\tex\Desert.png" />
     <Image Include="resources\tex\Raptor.png" />
     <Image Include="resources\tex\Spaceship.png" />
+    <Image Include="resources\tex\title.png" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="resources\fonts\Sansation.ttf" />

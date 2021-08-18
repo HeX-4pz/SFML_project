@@ -1,21 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "ResourceHolder.hpp"
 
-class TexturesHolder;
-class FontsHolder;
 class StateStack;
 
-struct Context
-{
-    Context(sf::RenderWindow& window, TexturesHolder& textureHolder, FontsHolder& fontsHolder)
-        : mWindow(&window)
-        , mTextures(&textureHolder)
-        , mFonts(&fontsHolder) {}
 
-    sf::RenderWindow* mWindow;
-    TexturesHolder* mTextures;
-    FontsHolder* mFonts;
-};
 
 
 namespace States
@@ -30,6 +19,21 @@ namespace States
         PauseState,
     };
 }
+
+struct Context
+{
+    Context(sf::RenderWindow& window, TexturesHolder& textureHolder, FontsHolder& fontsHolder, PlayerController& controller)
+        : mWindow(&window)
+        , mTextures(&textureHolder)
+        , mFonts(&fontsHolder)
+        , mPlayerController(&controller) {}
+
+    sf::RenderWindow* mWindow;
+    TexturesHolder* mTextures;
+    FontsHolder* mFonts;
+    PlayerController* mPlayerController;
+};
+
 
 class State
 {
