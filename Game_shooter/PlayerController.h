@@ -29,8 +29,8 @@ private:
     bool IsRealtimeAction(Action action);
 
 private:
-    std::map<sf::Keyboard::Key, Action> mKeyboardConnection;
-    std::map<Action, Command> mCommandConnection;
+    std::map<sf::Keyboard::Key, Action> mKeyBindings;
+    std::map<Action, Command> mCommandBindings;
 
 };
 

@@ -91,6 +91,6 @@ void Game::UpdateStatistic(sf::Time dTime)
         
         mStatisticText.setString("FPS = " + std::to_string(mStatisticFPS) + '\n');
         mStatisticUpdateTime -= 1.f;
-        mStatisticFPS = 0;
+        mStatisticFPS = 1;
     }
 }
