@@ -148,6 +148,7 @@
     <ClCompile Include="Spaceship.cpp" />
     <ClCompile Include="SpriteNode.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="StateIntro.cpp" />
     <ClCompile Include="StateStack.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -162,6 +163,7 @@
     <ClInclude Include="Spaceship.h" />
     <ClInclude Include="SpriteNode.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="StateIntro.h" />
     <ClInclude Include="StateStack.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

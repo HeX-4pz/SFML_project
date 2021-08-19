@@ -4,7 +4,6 @@
 #include <map>
 #include <SFML/Graphics.hpp>
 
-
 #include "State.h"
 
 class StateStack : private sf::NonCopyable
@@ -42,7 +41,7 @@ private:
     {
         explicit PendingChange(Action action, States::ID stateID = States::None) 
             : mAction(action)
-            , mStateID(mStateID) {}
+            , mStateID(stateID) {}
         
         Action mAction;
         States::ID mStateID;
@@ -62,7 +61,8 @@ private:
 template<typename T>
 void StateStack::RegisterState(States::ID stateID)
 {
-    mFactories[stateID] = [this] () {
+    mFactories[stateID] = [this] () 
+    {
         return State::uPtr(new T(*this, mContext));
     };
 }

@@ -3,9 +3,7 @@
 #include "ResourceHolder.hpp"
 
 class StateStack;
-
-
-
+class PlayerController;
 
 namespace States
 {
@@ -47,11 +45,12 @@ public:
     virtual bool Update(sf::Time dTime) = 0;
     virtual bool HandleInput(const sf::Event& event) = 0;
 
-private:
+    Context* GetContext();
+
+protected:
     void requestPushState(States::ID id);
     void requestPopState();
     void requestClearStates();
-
 
 private:
     StateStack* mStack;

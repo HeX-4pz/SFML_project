@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "State.h"
+#include "StateIntro.h"
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f / 60.f);
 
@@ -39,6 +39,11 @@ void Application::Run()
             timeSinceLastUpdate -= TimePerFrame;
             ProcessInput();
             Update(TimePerFrame);
+
+            if (mStateStack.IsEmpty())
+            {
+                mWindow.close();
+            }
         }
 
         UpdateStatistic(elapsedTime);
@@ -76,11 +81,11 @@ void Application::ProcessInput()
 
 void Application::RegisterStates()
 {
-    mStateStack.RegisterState<State>(States::StartScreen);
-    mStateStack.RegisterState<State>(States::Loading);
-    mStateStack.RegisterState<State>(States::MainMenu);
-    mStateStack.RegisterState<State>(States::GameState);
-    mStateStack.RegisterState<State>(States::PauseState);
+    mStateStack.RegisterState<StateIntro>(States::StartScreen);
+    //mStateStack.RegisterState<State>(States::Loading);
+    //mStateStack.RegisterState<State>(States::MainMenu);
+    //mStateStack.RegisterState<State>(States::GameState);
+    //mStateStack.RegisterState<State>(States::PauseState);
 }
 
 void Application::UpdateStatistic(sf::Time dTime)

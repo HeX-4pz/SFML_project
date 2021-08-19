@@ -21,3 +21,8 @@ void State::requestClearStates()
 {
     mStack->ClearStates();
 }
+
+Context * State::GetContext()
+{
+    return &mContext;
+}

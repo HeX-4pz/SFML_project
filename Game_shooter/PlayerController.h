@@ -1,9 +1,8 @@
 #pragma once
 #include <map>
 #include <SFML/Graphics.hpp>
+#include "Command.h"
 
-class QueueInputCommands;
-class Command;
 
 class PlayerController
 {
