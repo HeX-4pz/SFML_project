@@ -63,6 +63,7 @@ bool StateIntro::HandleInput(const sf::Event& event)
     if (event.type == sf::Event::KeyPressed)
     {
         requestPopState();
+        requestPushState(States::Loading);
     }
     return true;
 }

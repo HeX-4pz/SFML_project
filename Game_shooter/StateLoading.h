@@ -1,11 +1,13 @@
 #pragma once
 #include "State.h"
+#include "ParallelTask.h"
 
-class StateIntro :
+class StateLoading :
     public State
 {
+
 public:
-    StateIntro(StateStack& stack, Context context);
+    StateLoading(StateStack& stack, Context context);
 
     void Draw() override;
     bool Update(sf::Time dTime) override;
@@ -13,12 +15,11 @@ public:
 
 private:
     sf::Sprite mBackgroundSprite;
+    
     sf::RectangleShape mBackgroundShape;
+    sf::RectangleShape mLoadingShape;
 
-    sf::Text mText;
-    sf::Time mElapsedTime;
+    ParallelTask mParallelTask;
 
-    sf::Time mShadowTime; 
-    sf::Time mAlphaTime;
 };
 

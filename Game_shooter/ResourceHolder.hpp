@@ -12,6 +12,7 @@ namespace Textures
         Spaceship_Raptor,
         Desert,
         Title,
+        Loading,
     };
 }
 

@@ -141,6 +141,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParallelTask.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Command.cpp" />
@@ -149,12 +150,14 @@
     <ClCompile Include="SpriteNode.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="StateIntro.cpp" />
+    <ClCompile Include="StateLoading.cpp" />
     <ClCompile Include="StateStack.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="ParallelTask.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Command.h" />
@@ -164,11 +167,13 @@
     <ClInclude Include="SpriteNode.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateIntro.h" />
+    <ClInclude Include="StateLoading.h" />
     <ClInclude Include="StateStack.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\tex\Desert.png" />
+    <Image Include="resources\tex\loading.png" />
     <Image Include="resources\tex\Raptor.png" />
     <Image Include="resources\tex\Spaceship.png" />
     <Image Include="resources\tex\title.png" />

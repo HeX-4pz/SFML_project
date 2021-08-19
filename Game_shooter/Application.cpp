@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "StateIntro.h"
+#include "StateLoading.h"
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f / 60.f);
 
@@ -11,6 +12,7 @@ Application::Application()
     , mStateStack(Context(mWindow, mTextureHolder, mFontHolder, mController))
 {
     mTextureHolder.Load(Textures::ID::Title, "resources/tex/title.png");
+    mTextureHolder.Load(Textures::ID::Loading, "resources/tex/loading.png");
     mFontHolder.Load(Fonts::Main, "resources/fonts/Sansation.ttf");
     
     mStatisticText.setFont(mFontHolder.Get(Fonts::Main));
@@ -82,7 +84,7 @@ void Application::ProcessInput()
 void Application::RegisterStates()
 {
     mStateStack.RegisterState<StateIntro>(States::StartScreen);
-    //mStateStack.RegisterState<State>(States::Loading);
+    mStateStack.RegisterState<StateLoading>(States::Loading);
     //mStateStack.RegisterState<State>(States::MainMenu);
     //mStateStack.RegisterState<State>(States::GameState);
     //mStateStack.RegisterState<State>(States::PauseState);
