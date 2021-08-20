@@ -78,6 +78,9 @@
     <ClCompile Include="ParallelTask.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="StateMainMenu.cpp">
+      <Filter>Исходные файлы\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -124,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="ParallelTask.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMainMenu.h">
+      <Filter>Файлы заголовков\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

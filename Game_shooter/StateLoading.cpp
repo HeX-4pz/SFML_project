@@ -35,7 +35,7 @@ bool StateLoading::Update(sf::Time dTime)
     if (mParallelTask.IsFinished())
     {
         requestPopState();
-        requestPushState(States::StartScreen);
+        requestPushState(States::MainMenu);
     }
     else
     {
