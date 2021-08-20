@@ -1,5 +1,6 @@
 #include "StateGame.h"
 #include "PlayerController.h"
+#include <iostream>
 
 StateGame::StateGame(StateStack& stack, Context context) 
     : State(stack, context)
@@ -27,7 +28,7 @@ bool StateGame::HandleInput(const sf::Event& event)
 
     if (event.type == sf::Event::KeyPressed, event.key.code == sf::Keyboard::Escape)
     {
-        requestPopState();
+        requestPushState(States::PauseState);
     }
 
     return true;

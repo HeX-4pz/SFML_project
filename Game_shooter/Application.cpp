@@ -3,6 +3,7 @@
 #include "StateLoading.h"
 #include "StateMainMenu.h"
 #include "StateGame.h"
+#include "StatePause.h"
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f / 60.f);
 
@@ -89,7 +90,7 @@ void Application::RegisterStates()
     mStateStack.RegisterState<StateLoading>(States::Loading);
     mStateStack.RegisterState<StateMainMenu>(States::MainMenu);
     mStateStack.RegisterState<StateGame>(States::GameState);
-    //mStateStack.RegisterState<State>(States::PauseState);
+    mStateStack.RegisterState<StatePause>(States::PauseState);
 }
 
 void Application::UpdateStatistic(sf::Time dTime)

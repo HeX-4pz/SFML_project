@@ -112,7 +112,6 @@ void StateMainMenu::OnEnterPressed()
 
 void StateMainMenu::OnNewGameSelected()
 {
-    std::cout << "New Game choice" << std::endl;
     requestPopState();
     requestPushState(States::GameState);
 }
@@ -124,6 +123,5 @@ void StateMainMenu::OnSettingsSelected()
 
 void StateMainMenu::OnExitSelected()
 {
-    std::cout << "Exit choice" << std::endl;
     requestPopState();
 }
