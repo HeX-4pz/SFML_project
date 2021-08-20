@@ -12,11 +12,11 @@ World::World(sf::RenderWindow& window)
     , mScrolSpeed(-50.f)
     , mWorldBounds(0.f, 0.f, mView.getSize().x, 2000.f)
     , mSpawnPosition(mView.getSize().x / 2.f, mWorldBounds.height - mView.getSize().y / 2.f)
+    , mCommandsQueue()
 {
     LoadResources();
     Initiate();
     mView.setCenter(mSpawnPosition);
-    mCommandsQueue = std::make_unique<QueueInputCommands>();
 }
 
 void World::Update(sf::Time dTime)
@@ -24,9 +24,9 @@ void World::Update(sf::Time dTime)
     mView.move(0.f, mScrolSpeed * dTime.asSeconds());
     mPlayerSpaceship->SetVelocity(0.f, 0.f);
 
-    while (!mCommandsQueue->empty())
+    while (!mCommandsQueue.empty())
     {
-        mSceneGraph.OnCommand(mCommandsQueue->pop(), dTime);
+        mSceneGraph.OnCommand(mCommandsQueue.pop(), dTime);
     }
 
     AdaptPlayerVelocity();
@@ -53,6 +53,11 @@ sf::FloatRect World::GetCurrentBouds()
 float World::GetScrollSpeed()
 {
     return mScrolSpeed;
+}
+
+QueueInputCommands& World::GetCommandQueue()
+{
+    return mCommandsQueue;
 }
 
 void World::LoadResources()

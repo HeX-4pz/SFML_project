@@ -1,12 +1,12 @@
 #include <iostream>
-#include "Game.h"
+#include "Application.h"
 
 int main()
 {
     try
     {
-        Game game;
-        game.Run();
+        Application app;
+        app.Run();
     }
     catch (std::exception& e)
     {

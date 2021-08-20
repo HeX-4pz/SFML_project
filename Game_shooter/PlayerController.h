@@ -1,9 +1,8 @@
 #pragma once
 #include <map>
 #include <SFML/Graphics.hpp>
+#include "Command.h"
 
-class QueueInputCommands;
-class Command;
 
 class PlayerController
 {
@@ -29,8 +28,8 @@ private:
     bool IsRealtimeAction(Action action);
 
 private:
-    std::map<sf::Keyboard::Key, Action> mKeyboardConnection;
-    std::map<Action, Command> mCommandConnection;
+    std::map<sf::Keyboard::Key, Action> mKeyBindings;
+    std::map<Action, Command> mCommandBindings;
 
 };
 

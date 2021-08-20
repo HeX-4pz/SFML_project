@@ -19,6 +19,7 @@ public:
 
     sf::FloatRect GetCurrentBouds();
     float GetScrollSpeed();
+    QueueInputCommands& GetCommandQueue();
 
 private:
     void LoadResources();
@@ -36,9 +37,11 @@ private:
     };
 
 public:
-    std::unique_ptr<QueueInputCommands> mCommandsQueue;
+    
 
 private:
+    QueueInputCommands mCommandsQueue;
+
     sf::RenderWindow& mRender;
     sf::View mView;
 

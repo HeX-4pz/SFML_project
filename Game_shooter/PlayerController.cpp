@@ -36,12 +36,12 @@ PlayerController::PlayerController()
 {
     float speed = 300;
 
-    mCommandConnection[Action::moveUp] = playerAction(PlayerMover(0.f, -speed));
-    mCommandConnection[Action::moveDown] = playerAction(PlayerMover(0.f, speed));
-    mCommandConnection[Action::moveLeft] = playerAction(PlayerMover(-speed, 0.f));
-    mCommandConnection[Action::moveRight] = playerAction(PlayerMover(speed, 0.f));
+    mCommandBindings[Action::moveUp] = playerAction(PlayerMover(0.f, -speed));
+    mCommandBindings[Action::moveDown] = playerAction(PlayerMover(0.f, speed));
+    mCommandBindings[Action::moveLeft] = playerAction(PlayerMover(-speed, 0.f));
+    mCommandBindings[Action::moveRight] = playerAction(PlayerMover(speed, 0.f));
 
-    mCommandConnection[Action::writePos] = playerAction([](SceneNode& node, sf::Time dTime) {
+    mCommandBindings[Action::writePos] = playerAction([](SceneNode& node, sf::Time dTime) {
         sf::Vector2f position = node.getPosition();
         std::cout << "Position [" << position.x << ", " << position.y << "]" << std::endl;
     });
@@ -58,36 +58,36 @@ void PlayerController::HandleInputEvent(sf::Event event, QueueInputCommands & ev
 {
     if (event.type == sf::Event::KeyPressed)
     {
-        auto found = mKeyboardConnection.find(event.key.code);
-        if (found != mKeyboardConnection.end() && !IsRealtimeAction(found->second))
+        auto found = mKeyBindings.find(event.key.code);
+        if (found != mKeyBindings.end() && !IsRealtimeAction(found->second))
         {
-            events.push(mCommandConnection[found->second]);
+            events.push(mCommandBindings[found->second]);
         }
     }
 }
 
 void PlayerController::HandleRealtimeInput(QueueInputCommands& events)
 {
-    for (auto keyCouple : mKeyboardConnection)
+    for (auto keyCouple : mKeyBindings)
     {
         if (IsRealtimeAction(keyCouple.second) && sf::Keyboard::isKeyPressed(keyCouple.first))
         {
-            events.push(mCommandConnection[keyCouple.second]);
+            events.push(mCommandBindings[keyCouple.second]);
         }
     }
 }
 
 void PlayerController::AssignKey(sf::Keyboard::Key key, Action action)
 {
-    for (auto itr = mKeyboardConnection.begin(); itr != mKeyboardConnection.end();)
+    for (auto itr = mKeyBindings.begin(); itr != mKeyBindings.end();)
     {
         if (itr->second == action)
-            mKeyboardConnection.erase(itr++);
+            mKeyBindings.erase(itr++);
         else
             ++itr;
     }
 
-    mKeyboardConnection[key] = action;
+    mKeyBindings[key] = action;
 }
 
 bool PlayerController::IsRealtimeAction(Action action)
