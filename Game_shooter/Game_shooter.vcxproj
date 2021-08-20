@@ -139,7 +139,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ParallelTask.cpp" />
     <ClCompile Include="Pawn.cpp" />
@@ -149,6 +148,7 @@
     <ClCompile Include="Spaceship.cpp" />
     <ClCompile Include="SpriteNode.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="StateGame.cpp" />
     <ClCompile Include="StateIntro.cpp" />
     <ClCompile Include="StateLoading.cpp" />
     <ClCompile Include="StateMainMenu.cpp" />
@@ -157,7 +157,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="Game.h" />
     <ClInclude Include="ParallelTask.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="PlayerController.h" />
@@ -167,6 +166,7 @@
     <ClInclude Include="Spaceship.h" />
     <ClInclude Include="SpriteNode.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="StateGame.h" />
     <ClInclude Include="StateIntro.h" />
     <ClInclude Include="StateLoading.h" />
     <ClInclude Include="StateMainMenu.h" />

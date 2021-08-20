@@ -2,6 +2,7 @@
 #include "StateIntro.h"
 #include "StateLoading.h"
 #include "StateMainMenu.h"
+#include "StateGame.h"
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f / 60.f);
 
@@ -87,7 +88,7 @@ void Application::RegisterStates()
     mStateStack.RegisterState<StateIntro>(States::StartScreen);
     mStateStack.RegisterState<StateLoading>(States::Loading);
     mStateStack.RegisterState<StateMainMenu>(States::MainMenu);
-    //mStateStack.RegisterState<State>(States::GameState);
+    mStateStack.RegisterState<StateGame>(States::GameState);
     //mStateStack.RegisterState<State>(States::PauseState);
 }
 

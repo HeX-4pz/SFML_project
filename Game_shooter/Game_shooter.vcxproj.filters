@@ -36,9 +36,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Pawn.cpp">
       <Filter>Исходные файлы\Entities</Filter>
     </ClCompile>
@@ -81,11 +78,11 @@
     <ClCompile Include="StateMainMenu.cpp">
       <Filter>Исходные файлы\States</Filter>
     </ClCompile>
+    <ClCompile Include="StateGame.cpp">
+      <Filter>Исходные файлы\States</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceHolder.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -129,6 +126,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="StateMainMenu.h">
+      <Filter>Файлы заголовков\States</Filter>
+    </ClInclude>
+    <ClInclude Include="StateGame.h">
       <Filter>Файлы заголовков\States</Filter>
     </ClInclude>
   </ItemGroup>

@@ -114,7 +114,7 @@ void StateMainMenu::OnNewGameSelected()
 {
     std::cout << "New Game choice" << std::endl;
     requestPopState();
-    requestPushState(States::StartScreen);
+    requestPushState(States::GameState);
 }
 
 void StateMainMenu::OnSettingsSelected()
