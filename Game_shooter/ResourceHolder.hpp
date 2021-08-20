@@ -10,7 +10,7 @@ namespace Textures
     {
         Spaceship_Eagle,
         Spaceship_Raptor,
-        Desert,
+        SpaceBackground,
         Title,
         Loading,
     };

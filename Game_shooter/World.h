@@ -54,6 +54,6 @@ private:
     sf::FloatRect mWorldBounds;
     sf::Vector2f mSpawnPosition;
     float mScrolSpeed;
-
+    sf::Vector2f mDeltaPlayerPosition;
 };
 
