@@ -2,6 +2,7 @@
 #include "SpriteNode.h"
 #include "Spaceship.h"
 #include "Command.h"
+#include <iostream>
 
 World::World(sf::RenderWindow& window)
     : mRender(window)
@@ -10,9 +11,10 @@ World::World(sf::RenderWindow& window)
     , mSceneGraph()
     , mPlayerSpaceship(nullptr)
     , mScrolSpeed(-50.f)
-    , mWorldBounds(0.f, 0.f, mView.getSize().x, 2000.f)
-    , mSpawnPosition(mView.getSize().x / 2.f, mWorldBounds.height - mView.getSize().y / 2.f)
+    , mWorldBounds(0.f, 0.f, 8000.f, 8000.f)
+    , mSpawnPosition(mWorldBounds.width / 2.0, mWorldBounds.height / 2.f)
     , mCommandsQueue()
+    , mDeltaPlayerPosition(0.f, 0.f)
 {
     LoadResources();
     Initiate();
@@ -21,18 +23,15 @@ World::World(sf::RenderWindow& window)
 
 void World::Update(sf::Time dTime)
 {
-    mView.move(0.f, mScrolSpeed * dTime.asSeconds());
-    mPlayerSpaceship->SetVelocity(0.f, 0.f);
+    mView.move(mDeltaPlayerPosition);
 
     while (!mCommandsQueue.empty())
     {
         mSceneGraph.OnCommand(mCommandsQueue.pop(), dTime);
     }
-
-    AdaptPlayerVelocity();
+    sf::Vector2f prevPos = mPlayerSpaceship->getPosition();
     mSceneGraph.Update(dTime);
-    
-    AdaptPlayerPosition();
+    mDeltaPlayerPosition = mPlayerSpaceship->getPosition() - prevPos;
 }
 
 void World::Draw()
@@ -64,7 +63,7 @@ void World::LoadResources()
 {
     mTextureHolder.Load(Textures::Spaceship_Eagle, "resources/tex/Spaceship.png");
     mTextureHolder.Load(Textures::Spaceship_Raptor, "resources/tex/Raptor.png");
-    mTextureHolder.Load(Textures::Desert, "resources/tex/Desert.png");
+    mTextureHolder.Load(Textures::SpaceBackground, "resources/tex/SpaceTile.png");
 }
 
 void World::Initiate()
@@ -77,7 +76,7 @@ void World::Initiate()
         mSceneGraph.AttachChild(std::move(layer));
     }
 
-    sf::Texture& texture = mTextureHolder.Get(Textures::Desert);
+    sf::Texture& texture = mTextureHolder.Get(Textures::SpaceBackground);
     sf::IntRect rect(mWorldBounds);
     texture.setRepeated(true);
 
@@ -88,7 +87,6 @@ void World::Initiate()
     std::unique_ptr<Spaceship> player(new Spaceship(Spaceship::Eagle, *this, mTextureHolder));
     mPlayerSpaceship = player.get();
     mPlayerSpaceship->setPosition(mSpawnPosition);
-    mPlayerSpaceship->SetVelocity(0, mScrolSpeed);
     mSceneLayers[Front]->AttachChild(std::move(player));
 }
 
@@ -114,5 +112,5 @@ void World::AdaptPlayerVelocity()
     if (velocity.x != 0.f && velocity.y != 0.f)
         mPlayerSpaceship->SetVelocity(velocity / std::sqrt(2.f));
 
-    mPlayerSpaceship->Accelerate(0.f, mScrolSpeed);
+    //mPlayerSpaceship->Accelerate(0.f, mScrolSpeed);
 }

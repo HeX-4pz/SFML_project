@@ -9,11 +9,12 @@ class PlayerController
 public:
     enum Action
     {
-        moveUp,
-        moveDown,
-        moveLeft,
-        moveRight,
-        writePos
+        Acceleration,
+        Deceleration,
+        Rotate—ounter—lockwise,
+        Rotate—lockwise,
+        writePos,
+        RestartPos,
     };
 
 public:

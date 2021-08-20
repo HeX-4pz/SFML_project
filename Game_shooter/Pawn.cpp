@@ -1,8 +1,13 @@
 #include "Pawn.h"
+#include <cmath>
+#define PI 3.14159265  /* pi */
 
-Pawn::Pawn()
+Pawn::Pawn():
+    mAngular(0.f)
 {
     SetVelocity(0, 0);
+    SetAngularVelocity(0);
+
 }
 
 void Pawn::SetVelocity(sf::Vector2f velocity)
@@ -16,14 +21,20 @@ void Pawn::SetVelocity(float x, float y)
     mVelocity.y = y;
 }
 
-void Pawn::Accelerate(sf::Vector2f dVelocity)
+void Pawn::Accelerate(float dv)
 {
-    SetVelocity(GetVelocity() + dVelocity);
+    mVelocity.x -= sin(mAngular * PI / 180.f) * dv;
+    mVelocity.y += cos(mAngular * PI / 180.f) * dv;
 }
 
-void Pawn::Accelerate(float dx, float dy)
+void Pawn::SetAngularVelocity(float vf)
 {
-    Accelerate(sf::Vector2f(dx, dy));
+    mAngularVelocity = vf;
+}
+
+void Pawn::AngularAccelerate(float df)
+{
+    mAngularVelocity += df;
 }
 
 sf::Vector2f Pawn::GetVelocity()
@@ -33,5 +44,18 @@ sf::Vector2f Pawn::GetVelocity()
 
 void Pawn::UpdateCurent(sf::Time dTime)
 {
+    mAngular += mAngularVelocity * dTime.asSeconds();
+
+    if (mAngular < 0.f)
+    {
+        mAngular = 360.f - mAngular;
+    }
+    else if(mAngular > 360.f)
+    {
+        mAngular = mAngular - 360.f;
+    }
+
+    setRotation(mAngular);
     move(mVelocity * dTime.asSeconds());
+
 }

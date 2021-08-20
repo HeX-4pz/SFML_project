@@ -176,10 +176,10 @@
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="resources\tex\Desert.png" />
     <Image Include="resources\tex\loading.png" />
     <Image Include="resources\tex\Raptor.png" />
     <Image Include="resources\tex\Spaceship.png" />
+    <Image Include="resources\tex\SpaceTile.png" />
     <Image Include="resources\tex\title.png" />
   </ItemGroup>
   <ItemGroup>

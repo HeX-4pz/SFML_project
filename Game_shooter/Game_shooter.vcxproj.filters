@@ -142,9 +142,6 @@
     <Image Include="resources\tex\Spaceship.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="resources\tex\Desert.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
     <Image Include="resources\tex\Raptor.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
@@ -152,6 +149,9 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="resources\tex\loading.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="resources\tex\SpaceTile.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>
