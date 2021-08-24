@@ -1,50 +1,48 @@
 #include "StatePause.h"
-
-const char * toString(StatePause::Options option)
-{
-    switch (option)
-    {
-    case StatePause::Resume:
-        return "Resume";
-    case StatePause::Menu:
-        return "Menu";
-    }
-    assert(false);
-    return "";
-}
+#include "Button.h"
 
 StatePause::StatePause(StateStack& stack, Context context) 
     : State(stack, context)
-    , mPointer(0)
+    , mGUIContainer()
     , mShape()
 {
     sf::Vector2f viewSize = context.mWindow->getView().getSize();
     sf::Vector2f viewPos = context.mWindow->getView().getCenter() - viewSize / 2.f;
 
+    mShape.setSize(viewSize);
+    mShape.setFillColor(sf::Color(0, 0, 0, 150));
+
     float y = viewPos.y + viewSize.y * 1.f / 3.f;
 
     sf::Vector2f startPoint = sf::Vector2f(context.mWindow->getView().getCenter().x, y);
-    float interval_y = 50.f;
+    
+    GUI::Button::Ptr bt_resume = std::make_shared<GUI::Button>(*context.mFonts, *context.mTextures);
+    GUI::Button::Ptr bt_menu = std::make_shared<GUI::Button>(*context.mFonts, *context.mTextures);
 
-    for (int i = 0; i < Options::Size; ++i)
+    bt_resume->SetText("Resume");
+    bt_menu->SetText("Menu");
+
+    bt_resume->setScale(0.8f, 0.7f);
+    bt_menu->setScale(0.8f, 0.7f);
+    
+    bt_resume->setPosition(viewPos.x + viewSize.x * 0.5f - bt_resume->GetLocalBounds().width / 2.f, y);
+    bt_menu->setPosition(viewPos.x + viewSize.x * 0.5f - bt_menu->GetLocalBounds().width / 2.f, y + 60.f);
+
+    bt_resume->SetCallback([this]() 
     {
-        sf::Text text;
-        text.setFont(context.mFonts->Get(Main));
-        text.setString(toString(static_cast<Options>(i)));
-        
-        sf::Vector2f origin = text.getOrigin();
-        origin.x += text.getLocalBounds().width / 2.f;
-        text.setOrigin(origin);
+        requestPopState();
+    });
 
-        text.setFillColor(sf::Color::White);
-        text.setPosition(startPoint.x, startPoint.y + interval_y * i);
+    bt_menu->SetCallback([this]()
+    {
+        requestClearStates();
+        requestPushState(States::MainMenu);
+    });
 
-        mPauseTexts.push_back(text);
-    }
+    mGUIContainer.Pack(bt_resume);
+    mGUIContainer.Pack(bt_menu);
 
-    mShape.setSize(viewSize);
-    mShape.setFillColor(sf::Color(0, 0, 0, 150));
-    mPauseTexts[mPointer].setFillColor(sf::Color::Red);
+
 }
 
 void StatePause::Draw()
@@ -53,9 +51,7 @@ void StatePause::Draw()
     render->setView(render->getDefaultView());
     
     render->draw(mShape);
-
-    for (auto& text : mPauseTexts)
-        render->draw(text);
+    render->draw(mGUIContainer);
 }
 
 bool StatePause::Update(sf::Time dTime)
@@ -64,46 +60,8 @@ bool StatePause::Update(sf::Time dTime)
 }
 
 bool StatePause::HandleInput(const sf::Event& event)
-{
-    if (event.type != sf::Event::KeyPressed)
-    {
-        return false;
-    }
-
-    if (event.key.code == sf::Keyboard::W || event.key.code == sf::Keyboard::Up)
-    {
-        mPauseTexts[mPointer].setFillColor(sf::Color::White);
-
-        if (mPointer > 0)
-            --mPointer;
-
-        mPauseTexts[mPointer].setFillColor(sf::Color::Red);
-    }
-    else if (event.key.code == sf::Keyboard::S || event.key.code == sf::Keyboard::Down)
-    {
-        mPauseTexts[mPointer].setFillColor(sf::Color::White);
-
-        if (mPointer < Options::Size - 1)
-            ++mPointer;
-
-        mPauseTexts[mPointer].setFillColor(sf::Color::Red);
-    }
-    else if (event.key.code == sf::Keyboard::Enter)
-    {
-        if (mPointer == Options::Resume)
-        {
-            requestPopState();
-        }
-        else if (mPointer == Options::Menu)
-        {
-            requestClearStates();
-            requestPushState(States::MainMenu);
-        }
-        else
-        {
-            assert(false);
-        }
-    }
+{   
+    mGUIContainer.HandleEvent(event);
 
     return false;
 }

@@ -1,20 +1,10 @@
 #pragma once
 #include "State.h"
+#include "Container.h"
 
 class StatePause :
     public State
 {
-
-private:
-    enum Options
-    {
-        Resume,
-        Menu,
-        Size,
-    };
-
-    friend const char * toString(StatePause::Options);
-
 public:
     StatePause(StateStack& stack, Context context);
 
@@ -25,9 +15,7 @@ public:
 private:
     sf::RectangleShape mShape;
     sf::Sprite mBackground;
-    std::vector<sf::Text> mPauseTexts;
-
-    int mPointer;
+    GUI::Container mGUIContainer;
 
 };
 

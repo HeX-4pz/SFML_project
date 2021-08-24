@@ -16,6 +16,10 @@ Application::Application()
 {
     mTextureHolder.Load(Textures::ID::Title, "resources/tex/title.png");
     mTextureHolder.Load(Textures::ID::Loading, "resources/tex/loading.png");
+    mTextureHolder.Load(Textures::ID::Button_Selected, "resources/tex/Button_selected.png");
+    mTextureHolder.Load(Textures::ID::Button_Normal, "resources/tex/Button_normal.png");
+    mTextureHolder.Load(Textures::ID::Button_Pressed, "resources/tex/Button_pressed.png");
+
     mFontHolder.Load(Fonts::Main, "resources/fonts/Sansation.ttf");
     
     mStatisticText.setFont(mFontHolder.Get(Fonts::Main));

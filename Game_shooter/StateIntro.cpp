@@ -60,10 +60,10 @@ bool StateIntro::Update(sf::Time dTime)
 
 bool StateIntro::HandleInput(const sf::Event& event)
 {
-    if (event.type == sf::Event::KeyPressed)
+    if (event.type == sf::Event::KeyReleased)
     {
         requestPopState();
-        requestPushState(States::Loading);
+        requestPushState(States::MainMenu);
     }
     return true;
 }
