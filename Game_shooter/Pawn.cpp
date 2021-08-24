@@ -1,5 +1,6 @@
 #include "Pawn.h"
 #include <cmath>
+
 #define PI 3.14159265  /* pi */
 
 Pawn::Pawn():

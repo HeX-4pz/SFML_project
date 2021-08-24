@@ -13,6 +13,9 @@ namespace Textures
         SpaceBackground,
         Title,
         Loading,
+        Button_Selected,
+        Button_Normal,
+        Button_Pressed,
     };
 }
 
