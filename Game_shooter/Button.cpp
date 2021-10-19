@@ -30,12 +30,11 @@ void GUI::Button::SetText(const std::string & text)
     mText.setOrigin(x, y);
 }
 
-sf::FloatRect& GUI::Button::GetLocalBounds() const
+sf::FloatRect GUI::Button::GetLocalBounds()
 {
     sf::FloatRect localBounds = mSprite.getLocalBounds();
     sf::Vector2f size = sf::Vector2f(localBounds.width * getScale().x, localBounds.height * getScale().y);
-    sf::FloatRect bounds(getPosition(), size);
-    return bounds;
+    return sf::FloatRect(getPosition(), size);
 }
 
 bool GUI::Button::IsSelectable() const

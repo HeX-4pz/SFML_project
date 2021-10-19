@@ -19,7 +19,7 @@ namespace GUI
         void SetCallback(Callback callback);
         void SetText(const std::string& text);
 
-        sf::FloatRect& GetLocalBounds() const;
+        sf::FloatRect GetLocalBounds();
 
         bool    IsSelectable() const override;
         void    Select() override;
